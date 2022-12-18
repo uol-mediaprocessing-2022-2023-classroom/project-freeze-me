@@ -2,6 +2,7 @@
 
 ## Prerequisites
 - Node.js muss installiert sein
+- Im Ordner ```frontend/``` ```npm install``` ausgeführt
 - Im Ordner ```backend/``` ```pip install -r .\requirements.txt``` ausgeführt
 
 ## Programm starten
