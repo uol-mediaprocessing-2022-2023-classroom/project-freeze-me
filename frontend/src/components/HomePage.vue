@@ -42,11 +42,12 @@
         </div>
 
         <div class="selectedImageInfo">
-          <h2>Selected Image: <br /></h2>
+          <h2>Selected Medium: <br /></h2>
         </div>
 
         <div style="display: flex">
-          <img class="selectedImg" v-bind:src="selectedImage.url" />
+          <img v-if="!isVideo" class="selectedImg" v-bind:src="selectedMedium.url" />
+          <video v-if="isVideo" class="selectedImg" v-bind:src="selectedMedium.url" />
           <div class="inputField">
             <input
               placeholder="Your CEWE cldID"
@@ -58,17 +59,20 @@
               Load Images
             </button>
 
-            <button class="basicButton" @click="getBlur(selectedImage.id)">
+            <button class="basicButton" @click="getBlur(selectedMedium.id)">
               Apply Blur
             </button>
 
             <div>
-              <h3>Image Info:<br /></h3>
+              <h3>Medium Info:<br /></h3>
               <p>
-                {{ imageInfo.name }}
+                {{ mediumInfo.name }}
               </p>
               <p>
-                {{ imageInfo.avgColor }}
+                {{ mediumInfo.avgColor }}
+              </p>
+              <p>
+                {{ mediumInfo.mimeType }}
               </p>
             </div>
           </div>
@@ -119,7 +123,7 @@ export default {
       cldId: "",
       userName: "",
       loginData: { email: "", password: "" },
-      imageInfo: { name: "", avgColor: "" },
+      mediumInfo: { name: "", avgColor: "", mimeType: "" },
       awaitingLoginResponse: false,
       loginButtonText: "LOGIN",
       isLoggedIn: false,
@@ -127,7 +131,7 @@ export default {
   },
 
   props: {
-    selectedImage: Object,
+    selectedMedium: Object,
     currGallery: Array,
   },
 
@@ -274,7 +278,7 @@ export default {
       this.isLoggedIn = false;
       this.userName = "";
       this.loginData = { email: "", password: "" };
-      this.imageInfo = { name: "", avgColor: "" };
+      this.mediumInfo = { name: "", avgColor: "", mimeType: "" };
       this.awaitingLoginResponse = false;
       this.$emit("resetGalery");
     },
@@ -293,16 +297,20 @@ export default {
     isUserNameEmpty: function () {
       return this.userName == "";
     },
+    isVideo: function () {
+      return this.mediumInfo.mimeType == "video/mp4";
+    },
   },
 
   watch: {
     /*
       Watcher function for updating the displayed image information.
     */
-    selectedImage: function () {
-      this.imageInfo = {
-        name: "Name: " + this.selectedImage.name,
-        avgColor: "Average color: " + this.selectedImage.avgColor,
+    selectedMedium: function () {
+      this.mediumInfo = {
+        name: "Name: " + this.selectedMedium.name,
+        avgColor: "Average color: " + this.selectedMedium.avgColor,
+        mimeType: "Mime type: " + this.selectedMedium.mimeType
       };
     },
 

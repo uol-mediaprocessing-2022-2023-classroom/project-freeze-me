@@ -5,7 +5,7 @@
       A child component can emit events, which the parent then may react to. Here "selectedImage" is a prop passed to HomePage. HomePage emits the "fetchImgs" event,
       which triggers the fetchImgs method in App.vue. In this demo this is technically not needed, but since it's a core element of Vue I decided to include it.-->
       <HomePage
-        :selectedImage="selectedImage"
+        :selectedMedium="selectedMedium"
         :currGallery="currGallery"
         @loadImages="loadImages"
         @updateSelected="updateSelected"
@@ -29,7 +29,7 @@ export default {
 
   data() {
     return {
-      selectedImage: { url: placeholder, id: "placeholder" },
+      selectedMedium: { url: placeholder, id: "placeholder" },
       currGallery: [],
     };
   },
@@ -43,7 +43,7 @@ export default {
     */
     async loadImages(cldId) {
       // First fetch the ids of all the images on a users account, we need these in order to acquire the actual images in a given resolution
-      this.allImgData = await fetch(
+      this.allMediaData = await fetch(
         "https://tcmp.photoprintit.com/api/photos/all?orderDirection=asc&showHidden=false&showShared=false&includeMetadata=false",
         { headers: { cldId: cldId, clientVersion: "0.0.0-uni_webapp_demo" } }
       ).then((idResponse) => idResponse.json());
@@ -52,8 +52,10 @@ export default {
       this.loadedAmount = 0;
       this.currGallery = [];
 
+      console.log(this.allMediaData)
+
       // Fetch the actual image urls and other image info using image IDs saved in allImgData
-      for (const photo of this.allImgData.photos) {
+      for (const medium of this.allMediaData.photos) {
         // Stop once the limit is reached
         if (this.loadedAmount >= this.limit) {
           break;
@@ -61,20 +63,20 @@ export default {
         this.loadedAmount += 1;
 
         const data = {};
-        data.id = photo.id;
-        data.name = photo.name;
-        data.avgColor = photo.avgHexColor;
-        data.timestamp = photo.timestamp;
-        data.type = photo.mimeType;
+        data.id = medium.id;
+        data.name = medium.name;
+        data.avgColor = medium.avgHexColor;
+        data.timestamp = medium.timestamp;
+        data.mimeType = medium.mimeType;
 
-        const imgResponse = await fetch(
+        const mediumResponse = await fetch(
           "https://tcmp.photoprintit.com/api/photos/" +
-            photo.id +
+            medium.id +
             ".jpg?size=300&errorImage=false&cldId=" +
             cldId +
             "&clientVersion=0.0.0-uni_webapp_demo"
         );
-        data.url = imgResponse.url;
+        data.url = mediumResponse.url;
         this.currGallery.push(data);
       }
     },
@@ -93,14 +95,15 @@ export default {
           cldId +
           "&clientVersion=0.0.0-uni_webapp_demo"
       );
-      const image = this.currGallery.filter((obj) => {
+      const medium = this.currGallery.filter((obj) => {
         return obj.id === selectedId;
       })[0];
-      this.selectedImage = {
+      this.selectedMedium = {
         url: imgResponse.url,
         id: selectedId,
-        name: image.name,
-        avgColor: image.avgColor,
+        name: medium.name,
+        avgColor: medium.avgColor,
+        mimeType: medium.mimeType,
       };
     },
 
@@ -122,12 +125,12 @@ export default {
           return URL.createObjectURL(imageBlob);
         });
       console.log(blurImg);
-      this.selectedImage.url = blurImg;
+      this.selectedMedium.url = blurImg;
     },
 
     // Resets cached images.
     resetGallery() {
-      this.selectedImage = { url: placeholder, id: "placeholder" };
+      this.selectedMedium = { url: placeholder, id: "placeholder" };
       this.currGallery = [];
     },
   },
