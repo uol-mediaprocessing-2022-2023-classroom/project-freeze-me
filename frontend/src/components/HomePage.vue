@@ -46,8 +46,8 @@
         </div>
 
         <div style="display: flex">
-          <img v-if="!isVideo" class="selectedImg" v-bind:src="selectedMedium.url" />
-          <video v-if="isVideo" class="selectedImg" v-bind:src="selectedMedium.url" />
+          <img v-if="!isVideo" class="selectedMedium" v-bind:src="selectedMedium.url" />
+          <video v-if="isVideo" class="selectedMedium" controls="controls" v-bind:src="selectedMedium.url" />
           <div class="inputField">
             <input
               placeholder="Your CEWE cldID"
@@ -297,8 +297,9 @@ export default {
     isUserNameEmpty: function () {
       return this.userName == "";
     },
+
     isVideo: function () {
-      return this.mediumInfo.mimeType == "video/mp4";
+      return this.selectedMedium.mimeType == "video/mp4";
     },
   },
 
@@ -365,7 +366,7 @@ export default {
   overflow-y: auto;
 }
 
-.selectedImg {
+.selectedMedium {
   max-width: 500px;
   max-height: 500px;
 }
@@ -407,7 +408,6 @@ export default {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
-  width: 400px;
 }
 
 .inputField * {

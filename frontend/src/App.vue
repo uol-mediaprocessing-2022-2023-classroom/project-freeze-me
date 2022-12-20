@@ -52,8 +52,6 @@ export default {
       this.loadedAmount = 0;
       this.currGallery = [];
 
-      console.log(this.allMediaData)
-
       // Fetch the actual image urls and other image info using image IDs saved in allImgData
       for (const medium of this.allMediaData.photos) {
         // Stop once the limit is reached
@@ -124,7 +122,6 @@ export default {
         .then((imageBlob) => {
           return URL.createObjectURL(imageBlob);
         });
-      console.log(blurImg);
       this.selectedMedium.url = blurImg;
     },
 
