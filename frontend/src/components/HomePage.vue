@@ -63,6 +63,24 @@
               Apply Blur
             </button>
 
+            <div class="option-group">
+              <button class="basicButton" @click="getBackgroundImage(selectedMedium.id)">
+                Extract Background
+              </button>
+              <select name="background-image-option" id="background-image-option" v-model="backgroundImageOption">
+                <option v-for="option in options" :value="option">{{option}}</option>
+              </select>
+            </div>
+
+            <div class="option-group">
+              <button class="basicButton" @click="getForegroundMask(selectedMedium.id)">
+                Extract Foreground Mask
+              </button>
+              <select name="foreground-mask-option" id="foreground-mask-option" v-model="foregroundMaskOption">
+                <option v-for="option in options" :value="option">{{option}}</option>
+              </select>
+            </div>
+
             <div>
               <h3>Medium Info:<br /></h3>
               <p>
@@ -127,6 +145,9 @@ export default {
       awaitingLoginResponse: false,
       loginButtonText: "LOGIN",
       isLoggedIn: false,
+      backgroundImageOption: 'MOG2',
+      foregroundMaskOption: 'MOG2',
+      options: ['MOG2', 'KNN']
     };
   },
 
@@ -159,7 +180,28 @@ export default {
       @param selectedId The ID of the selected image.
     */
     getBlur(selectedId) {
+      console.log("HomePage > getBlur")
       this.$emit("getBlur", selectedId, this.cldId);
+    },
+
+    /*
+      Emit a getBackgroundImage event with the ID of the selected medium.
+
+      @param selectedId The ID of the selected image.
+     */
+    getBackgroundImage(selectedId) {
+      console.log("HomePage > getBackgroundImage")
+      this.$emit("getBackgroundImage", selectedId, this.cldId, this.backgroundImageOption)
+    },
+
+    /*
+      Emit a getForegroundMask event with the ID of the selected medium.
+
+      @param selectedId The ID of the selected image.
+     */
+    getForegroundMask(selectedId) {
+      console.log("HomePage > getForegroundMask")
+      this.$emit("getForegroundMask", selectedId, this.cldId, this.foregroundImageOption)
     },
 
     /*

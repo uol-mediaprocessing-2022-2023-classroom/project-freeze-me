@@ -7,6 +7,7 @@ import ssl
 import os
 from starlette.background import BackgroundTasks
 import urllib.request, urllib.parse
+import cv2 as cv
 
 app = FastAPI()
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -48,6 +49,68 @@ async def get_blur(cldId, imgId, background_tasks: BackgroundTasks):
     # The background task runs after the File is returned completetly
     background_tasks.add_task(remove_file, img_path)
     return FileResponse(img_path)
+
+
+@app.get("/get-background-image/{cldId}/{videoId}/{backgroundImageOption}")
+async def get_background_image(cldId, videoId, backgroundImageOption, background_tasks: BackgroundTasks):
+    if backgroundImageOption == "MOG2":
+        background_subtraction = cv.createBackgroundSubtractorMOG2()
+    else:
+        background_subtraction = cv.createBackgroundSubtractorKNN()
+
+    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    # pull video from server to specified video path
+    video_path = 'app/bib/' + videoId + ".mp4"
+    urllib.request.urlretrieve(video_url, video_path)
+
+    # read input video
+    video = cv.VideoCapture(cv.samples.findFileOrKeep(video_path))
+    # feed video into background subtraction
+    while True:
+        ret, frame = video.read()
+        if frame is None:
+            break
+
+        background_subtraction.apply(frame)
+
+    # save background image to specified image path
+    bg_image = background_subtraction.getBackgroundImage()
+    bg_mask_image_path = 'app/bib/bg_mask_' + videoId + '.png'
+    cv.imwrite(bg_mask_image_path, bg_image)
+
+    background_tasks.add_task(remove_file, video_path)
+    return FileResponse(bg_mask_image_path)
+
+
+@app.get("/get-foreground-mask/{cldId}/{videoId}/{foregroundMaskOption}")
+async def get_foreground_mask(cldId, videoId, foregroundMaskOption, background_tasks: BackgroundTasks):
+    if foregroundMaskOption == "MOG2":
+        background_subtraction = cv.createBackgroundSubtractorMOG2()
+    else:
+        background_subtraction = cv.createBackgroundSubtractorKNN()
+
+    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    # pull video from server to specified video path
+    video_path = 'app/bib/' + videoId + ".mp4"
+    urllib.request.urlretrieve(video_url, video_path)
+
+    # read input video
+    video = cv.VideoCapture(cv.samples.findFileOrKeep(video_path))
+    # feed video into background subtraction
+    while True:
+        ret, frame = video.read()
+        if frame is None:
+            break
+
+        fg_mask = background_subtraction.apply(frame)
+
+    # save foreground mask to specified image path
+    fg_mask_image_path = 'app/bib/fg_mask_' + videoId + '.png'
+    cv.imwrite(fg_mask_image_path, fg_mask)
+
+    background_tasks.add_task(remove_file, video_path)
+    return FileResponse(fg_mask_image_path)
+
 
 # Delete a file
 def remove_file(path: str) -> None:

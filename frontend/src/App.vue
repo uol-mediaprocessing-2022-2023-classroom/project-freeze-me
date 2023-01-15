@@ -10,6 +10,8 @@
         @loadImages="loadImages"
         @updateSelected="updateSelected"
         @getBlur="getBlur"
+        @getBackgroundImage="getBackgroundImage"
+        @getForegroundMask="getForegroundMask"
         @resetGalery="resetGallery"
       />
     </v-main>
@@ -111,18 +113,51 @@ export default {
 
     @param selectedId ID of the image to be blurred.
     */
-    async getBlur(selectedId, cldId) {
+    async getBlur(selectedId, cldId)
+    {
+      console.log("App > getBlur")
       let localUrl = "http://127.0.0.1:8000/get-blur";
       let url = localUrl + "/" + cldId + "/" + selectedId;
 
-      let blurImg = await fetch(url, {
-        method: "get",
-      })
+      this.selectedMedium.url = await fetch(url, {method: "get"})
         .then((response) => response.blob())
-        .then((imageBlob) => {
-          return URL.createObjectURL(imageBlob);
-        });
-      this.selectedMedium.url = blurImg;
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+    },
+
+    /*
+    Display a version of the image, where the background is subtracted.
+    The image is processed by the backend and sent to the app.
+
+    @param selectedId ID of the image to get its background subtracted.
+    */
+    async getBackgroundImage(selectedId, cldId, backgroundImageOption)
+    {
+      console.log("App > getBackgroundImage")
+      let localUrl = "http://127.0.0.1:8000/get-background-image";
+      let url = localUrl + "/" + cldId + "/" + selectedId + "/" + backgroundImageOption;
+
+      this.selectedMedium.url = await fetch(url, { method: "get" })
+        .then((response) => response.blob())
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+      this.selectedMedium.mimeType = "image/png"
+ },
+
+    /*
+    Display a version of the image, where the foreground mask is extracted.
+    The image is processed by the backend and sent to the app.
+
+    @param selectedId ID of the image to get its foreground mask extracted.
+    */
+    async getForegroundMask(selectedId, cldId, foregroundMaskOption)
+    {
+      console.log("App > getForegroundMask")
+      let localUrl = "http://127.0.0.1:8000/get-foreground-mask";
+      let url = localUrl + "/" + cldId + "/" + selectedId + "/" + foregroundMaskOption;
+
+      this.selectedMedium.url = await fetch(url, { method: "get" })
+        .then((response) => response.blob())
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+      this.selectedMedium.mimeType = "image/png"
     },
 
     // Resets cached images.
