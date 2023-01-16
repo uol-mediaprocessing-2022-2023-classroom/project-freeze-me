@@ -81,6 +81,10 @@
               </select>
             </div>
 
+            <button class="basicButton" @click="getEdgeDetection(selectedMedium.id)">
+              Extract Edges
+            </button>
+
             <div>
               <h3>Medium Info:<br /></h3>
               <p>
@@ -201,7 +205,12 @@ export default {
      */
     getForegroundMask(selectedId) {
       console.log("HomePage > getForegroundMask")
-      this.$emit("getForegroundMask", selectedId, this.cldId, this.foregroundImageOption)
+      this.$emit("getForegroundMask", selectedId, this.cldId, this.foregroundMaskOption)
+    },
+
+    getEdgeDetection(selectedId) {
+      console.log("HomePage > getEdgeDetection")
+      this.$emit("getEdgeDetection", selectedId, this.cldId)
     },
 
     /*

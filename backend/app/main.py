@@ -8,6 +8,8 @@ import os
 from starlette.background import BackgroundTasks
 import urllib.request, urllib.parse
 import cv2 as cv
+import numpy as np
+
 
 app = FastAPI()
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -110,6 +112,35 @@ async def get_foreground_mask(cldId, videoId, foregroundMaskOption, background_t
 
     background_tasks.add_task(remove_file, video_path)
     return FileResponse(fg_mask_image_path)
+
+
+@app.get("/get-edge-detection/{cldId}/{videoId}")
+async def get_edge_detection(cldId, videoId, background_tasks: BackgroundTasks):
+    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    # pull video from server to specified video path
+    video_path = 'app/bib/' + videoId + ".mp4"
+    urllib.request.urlretrieve(video_url, video_path)
+
+    # read input video
+    video = cv.VideoCapture(cv.samples.findFileOrKeep(video_path))
+    # feed video into background subtraction
+    while True:
+        ret, frame = video.read()
+        if frame is None:
+            break
+
+        sigma = 0.3
+        median = np.median(frame)
+        lower = int(max(0, (1.0 - sigma) * median))
+        upper = int(min(255, (1.0 + sigma) * median))
+        edges = cv.Canny(frame, lower, upper)
+
+    # save foreground mask to specified image path
+    edge_image_path = 'app/bib/edges_' + videoId + '.png'
+    cv.imwrite(edge_image_path, edges)
+
+    background_tasks.add_task(remove_file, video_path)
+    return FileResponse(edge_image_path)
 
 
 # Delete a file

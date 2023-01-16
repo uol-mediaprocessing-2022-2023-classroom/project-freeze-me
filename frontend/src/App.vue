@@ -12,6 +12,7 @@
         @getBlur="getBlur"
         @getBackgroundImage="getBackgroundImage"
         @getForegroundMask="getForegroundMask"
+        @getEdgeDetection="getEdgeDetection"
         @resetGalery="resetGallery"
       />
     </v-main>
@@ -164,6 +165,24 @@ export default {
     resetGallery() {
       this.selectedMedium = { url: placeholder, id: "placeholder" };
       this.currGallery = [];
+    },
+
+    /*
+    Display a version of the image, where the foreground mask is extracted.
+    The image is processed by the backend and sent to the app.
+
+    @param selectedId ID of the image to get its foreground mask extracted.
+    */
+    async getEdgeDetection(selectedId, cldId)
+    {
+      console.log("App > getEdgeDetection")
+      let localUrl = "http://127.0.0.1:8000/get-edge-detection";
+      let url = localUrl + "/" + cldId + "/" + selectedId;
+
+      this.selectedMedium.url = await fetch(url, { method: "get" })
+        .then((response) => response.blob())
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+      this.selectedMedium.mimeType = "image/png"
     },
   },
 };
