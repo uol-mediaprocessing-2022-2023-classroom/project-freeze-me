@@ -2,6 +2,7 @@
 \usepackage[german]{babel}
 \usepackage{graphicx}
 \usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
 
 \usepackage{color}
 \usepackage[linkcolor=black, urlcolor=black, citecolor=dblue,
@@ -9,17 +10,22 @@ breaklinks, bookmarks, colorlinks]{hyperref}
 
 \begin {document}
 
-\hspace{-0.4cm}\huge \textbf{Freeze Me!}\vspace{3pt}\\\Large A Media Processing Project \vspace{14pt}\large 
+\hspace{-0.4cm}\huge \textbf{Freeze Me! - Dokumentation}\vspace{3pt}\\\Large A Media Processing Project \vspace{14pt}\large 
 
 \noindent
-\textbf{Datum:} Tag der Abgabe! \\ 
+\textbf{Stand:} Tag der Abgabe! \\ 
 
 \vspace{3pt} \normalsize Gruppe: 
 Jan Rekemeyer, Iskander Yusupov und Hendrik Finke
 
-\section{Einleitung und Ziel}
-Unserem Projekt haben wir der folgende Zielsetzung gewidmet: //
-\textit{Wir entwickeln ein Programm, welches es ermöglicht aus einem Video ein Bild zu erzeugen, welches die Bewegungsdynamik des Videos ästhetisch einfasst und dabei den Eindruck fortwährender Bewegung erhält.}
+\section{Einleitung und Ziel} %Iskander wollte hier noch etwas schreiben
+Unserem Projekt haben wir der folgende Zielsetzung gewidmet: \\
+\textit{Wir entwickeln ein Programm, welches es erm\"oglicht aus einem Video ein Bild zu erzeugen, welches die Bewegungsdynamik des Videos \"Asthetisch einfasst und dabei den Eindruck fortw\"ahrender Bewegung erh\"alt.}
 
+\section{Inspiration: Langzeitbelichtung} %Erstmal Hendriks Sektion
+Das in den Er\"offnungsfolien gezeigte Bildmaterial erinnerte uns in Teilen doch recht stark an eine klassische Langzeitbelichtung, wie man sie aus der Analogfotografie oder der Fotographie mit DSLRs oder DSLMs kennt. Daher stellten wir uns die Frage, wie man dieses Konzept digital nachtr\"aglich unter Zuhilfenahme eines Videos anstelle eines Fotos reproduzieren kann. \\
+Der Ansatz, den wir hierbei Verfolgt haben ist relativ trivial. \"Ahnlich wie klassiche Filter den Inhaltswert eines Pixels anhand einer ggf. faktorisierten Durchschnittsberechnung mit den umliegenden Pixeln berechnet tun wir ebendieses - jedoch mit den Pixeln gleicher Koordinaten auf anderen Videoframes. 
+
+\section{Edge Detection und Background Subtraction}
 
 \end{document}
