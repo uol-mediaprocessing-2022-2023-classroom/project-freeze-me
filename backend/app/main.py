@@ -9,6 +9,7 @@ from starlette.background import BackgroundTasks
 import urllib.request, urllib.parse
 import cv2 as cv
 import numpy as np
+from tqdm import tqdm
 
 
 app = FastAPI()
@@ -141,6 +142,56 @@ async def get_edge_detection(cldId, videoId, background_tasks: BackgroundTasks):
 
     background_tasks.add_task(remove_file, video_path)
     return FileResponse(edge_image_path)
+
+
+@app.get("/get-long-exposure/{cldId}/{videoId}")
+async def get_long_exposure(cldId, videoId, background_tasks: BackgroundTasks):
+    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    # pull video from server to specified video path
+    video_path = 'app/bib/' + videoId + ".mp4"
+    urllib.request.urlretrieve(video_url, video_path)
+
+    # read input video
+    video = cv.VideoCapture(cv.samples.findFileOrKeep(video_path))
+
+    step = 1
+    r, g, b = None, None, None
+    r_avg, g_avg, b_avg = averager(),averager(), averager()
+    # Get the total frames to be used by the progress bar
+    total_frames = int(video.get(cv.CAP_PROP_FRAME_COUNT))
+    for count in tqdm(range(total_frames)):
+        # Split the frame into its respective channels
+        _, frame = video.read()
+
+        if count % step == 0 and frame is not None:
+            # Get the current RGB
+            b_curr, g_curr, r_curr = cv.split(frame.astype("float"))
+            r, g, b = r_avg(r_curr), g_avg(g_curr), b_avg(b_curr)
+
+    # Merge the RGB averages together and write the output image to disk
+    avg = cv.merge([b, g, r]).astype("uint8")
+
+    # save foreground mask to specified image path
+    long_exposure_image_path = 'app/bib/edges_' + videoId + '.jpg'
+    cv.imwrite(long_exposure_image_path, avg)
+
+    background_tasks.add_task(remove_file, video_path)
+    return FileResponse(long_exposure_image_path)
+
+
+def averager():
+    """Calculate the average using a clojure."""
+    count = 0
+    total = 0.0
+
+    def average(value):
+        nonlocal count, total
+        count += 1
+        total += value
+        return total / count
+
+    return average
+
 
 
 # Delete a file

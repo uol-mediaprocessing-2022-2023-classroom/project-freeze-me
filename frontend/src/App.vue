@@ -13,6 +13,7 @@
         @getBackgroundImage="getBackgroundImage"
         @getForegroundMask="getForegroundMask"
         @getEdgeDetection="getEdgeDetection"
+        @getLongExposure="getLongExposure"
         @resetGalery="resetGallery"
       />
     </v-main>
@@ -183,6 +184,24 @@ export default {
         .then((response) => response.blob())
         .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
       this.selectedMedium.mimeType = "image/png"
+    },
+
+    /*
+    Display a version of the image, where the foreground mask is extracted.
+    The image is processed by the backend and sent to the app.
+
+    @param selectedId ID of the image to get its foreground mask extracted.
+    */
+    async getLongExposure(selectedId, cldId)
+    {
+      console.log("App > getLongExposure")
+      let localUrl = "http://127.0.0.1:8000/get-long-exposure";
+      let url = localUrl + "/" + cldId + "/" + selectedId;
+
+      this.selectedMedium.url = await fetch(url, { method: "get" })
+        .then((response) => response.blob())
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+      this.selectedMedium.mimeType = "image/jpg"
     },
   },
 };

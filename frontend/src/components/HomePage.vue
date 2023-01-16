@@ -85,6 +85,10 @@
               Extract Edges
             </button>
 
+            <button class="basicButton" @click="getLongExposure(selectedMedium.id)">
+              Apply Long Exposure
+            </button>
+
             <div>
               <h3>Medium Info:<br /></h3>
               <p>
@@ -211,6 +215,11 @@ export default {
     getEdgeDetection(selectedId) {
       console.log("HomePage > getEdgeDetection")
       this.$emit("getEdgeDetection", selectedId, this.cldId)
+    },
+
+    getLongExposure(selectedId) {
+      console.log("HomePage > getLongExposure")
+      this.$emit("getLongExposure", selectedId, this.cldId)
     },
 
     /*
