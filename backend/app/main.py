@@ -39,7 +39,7 @@ def home():
 async def get_blur(cldId, imgId, background_tasks: BackgroundTasks):
 
     img_path = 'app/bib/' + imgId + ".jpg"
-    image_url = "https://tcmp.photoprintit.com/api/photos/" + imgId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    image_url = "https://cmp.photoprintit.com/api/photos/" + imgId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
 
     urllib.request.urlretrieve(image_url, img_path)
 
@@ -61,7 +61,7 @@ async def get_background_image(cldId, videoId, backgroundImageOption, background
     else:
         background_subtraction = cv.createBackgroundSubtractorKNN()
 
-    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    video_url = "https://cmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
     # pull video from server to specified video path
     video_path = 'app/bib/' + videoId + ".mp4"
     urllib.request.urlretrieve(video_url, video_path)
@@ -92,7 +92,7 @@ async def get_foreground_mask(cldId, videoId, foregroundMaskOption, background_t
     else:
         background_subtraction = cv.createBackgroundSubtractorKNN()
 
-    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    video_url = "https://cmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
     # pull video from server to specified video path
     video_path = 'app/bib/' + videoId + ".mp4"
     urllib.request.urlretrieve(video_url, video_path)
@@ -117,7 +117,7 @@ async def get_foreground_mask(cldId, videoId, foregroundMaskOption, background_t
 
 @app.get("/get-edge-detection/{cldId}/{videoId}")
 async def get_edge_detection(cldId, videoId, background_tasks: BackgroundTasks):
-    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    video_url = "https://cmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
     # pull video from server to specified video path
     video_path = 'app/bib/' + videoId + ".mp4"
     urllib.request.urlretrieve(video_url, video_path)
@@ -146,7 +146,7 @@ async def get_edge_detection(cldId, videoId, background_tasks: BackgroundTasks):
 
 @app.get("/get-long-exposure/{cldId}/{videoId}")
 async def get_long_exposure(cldId, videoId, background_tasks: BackgroundTasks):
-    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    video_url = "https://cmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
     # pull video from server to specified video path
     video_path = 'app/bib/' + videoId + ".mp4"
     urllib.request.urlretrieve(video_url, video_path)
@@ -181,7 +181,7 @@ async def get_long_exposure(cldId, videoId, background_tasks: BackgroundTasks):
 
 @app.get("/get-freeze-me/{cldId}/{videoId}")
 async def get_freeze_me(cldId, videoId, background_tasks: BackgroundTasks):
-    video_url = "https://tcmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
+    video_url = "https://cmp.photoprintit.com/api/photos/" + videoId + ".org?size=original&errorImage=false&cldId=" + cldId + "&clientVersion=0.0.0-uni_webapp_demo"
     # pull video from server to specified video path
     video_path = 'app/bib/' + videoId + ".mp4"
     urllib.request.urlretrieve(video_url, video_path)
