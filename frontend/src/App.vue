@@ -14,6 +14,7 @@
         @getForegroundMask="getForegroundMask"
         @getEdgeDetection="getEdgeDetection"
         @getLongExposure="getLongExposure"
+        @getFreezeMe="getFreezeMe"
         @resetGalery="resetGallery"
       />
     </v-main>
@@ -23,6 +24,42 @@
 <script>
 import HomePage from "./components/HomePage";
 import placeholder from "./assets/placeholder.jpg";
+
+// Create our new version of the fetch function
+window.fetchWithSpinner = function(){
+    // Create hooks
+    var fetchStart = new Event( 'fetchStart', { 'view': document, 'bubbles': true, 'cancelable': false } );
+    var fetchEnd = new Event( 'fetchEnd', { 'view': document, 'bubbles': true, 'cancelable': false } );
+    var fetchError = new Event( 'fetchError', { 'view': document, 'bubbles': true, 'cancelable': false } );
+
+    // Pass the supplied arguments to the real fetch function
+    var fetchCall = fetch.apply(this, arguments);
+
+    // Trigger the fetchStart event
+    document.dispatchEvent(fetchStart);
+
+    fetchCall.then(function(){
+        // Trigger the fetchEnd event
+        document.dispatchEvent(fetchEnd);
+    }).catch(function(){
+        // Trigger the fetchError event
+        document.dispatchEvent(fetchError);
+    });
+
+    return fetchCall;
+};
+
+document.addEventListener('fetchStart', function() {
+    alert("Programm is running.");
+});
+
+document.addEventListener('fetchEnd', function() {
+    alert("Programm finished.");
+});
+
+document.addEventListener('fetchError', function() {
+    alert("Programm error.");
+});
 
 export default {
   name: "App",
@@ -199,6 +236,24 @@ export default {
       let url = localUrl + "/" + cldId + "/" + selectedId;
 
       this.selectedMedium.url = await fetch(url, { method: "get" })
+        .then((response) => response.blob())
+        .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
+      this.selectedMedium.mimeType = "image/jpg"
+    },
+
+    /*
+    Display a version of the image, where the foreground mask is extracted.
+    The image is processed by the backend and sent to the app.
+
+    @param selectedId ID of the image to get its foreground mask extracted.
+    */
+    async getFreezeMe(selectedId, cldId)
+    {
+      console.log("App > getFreezeMe")
+      let localUrl = "http://127.0.0.1:8000/get-freeze-me";
+      let url = localUrl + "/" + cldId + "/" + selectedId;
+
+      this.selectedMedium.url = await fetchWithSpinner(url, { method: "get" })
         .then((response) => response.blob())
         .then((imageBlob) => { return URL.createObjectURL(imageBlob); });
       this.selectedMedium.mimeType = "image/jpg"

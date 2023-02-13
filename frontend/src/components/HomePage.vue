@@ -89,6 +89,10 @@
               Apply Long Exposure
             </button>
 
+            <button class="basicButton" @click="getFreezeMe(selectedMedium.id)">
+              Apply Freeze Me
+            </button>
+
             <div>
               <h3>Medium Info:<br /></h3>
               <p>
@@ -220,6 +224,11 @@ export default {
     getLongExposure(selectedId) {
       console.log("HomePage > getLongExposure")
       this.$emit("getLongExposure", selectedId, this.cldId)
+    },
+
+    getFreezeMe(selectedId) {
+      console.log("HomePage > getFreezeMe")
+      this.$emit("getFreezeMe", selectedId, this.cldId)
     },
 
     /*
@@ -429,6 +438,7 @@ export default {
 .selectedMedium {
   max-width: 500px;
   max-height: 500px;
+  object-fit: contain;
 }
 
 .selectedImageInfo {
