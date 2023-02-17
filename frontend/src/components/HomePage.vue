@@ -252,7 +252,7 @@ export default {
         headers: {
           "Content-Type": "application/json",
           clientVersion: "0.0.1-medienVerDemo",
-          apiAccessKey: "84d5fff65156920a682f71f502f63966",
+          apiAccessKey: "6003d11a080ae5edf4b4f45481b89ce7",
         }, // this apiAccessKey is for testing
         body: JSON.stringify({
           login: loginData.email,
@@ -263,7 +263,7 @@ export default {
 
       let status = 0;
       const response = await fetch(
-        "https://tcmp.photoprintit.com/api/account/session/",
+        "https://cmp.photoprintit.com/api/account/session/",
         requestOptions
       ).then((response) => {
         status = response.status;
@@ -310,7 +310,7 @@ export default {
       };
 
       const response = await fetch(
-        "https://tcmp.photoprintit.com/api/account/session/?invalidateRefreshToken=true",
+        "https://cmp.photoprintit.com/api/account/session/?invalidateRefreshToken=true",
         requestOptions
       );
       const status = response.status;
