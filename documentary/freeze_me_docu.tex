@@ -109,8 +109,8 @@ Am Ende werden neue Datenpunkte der Kategorie zugeordnet, f\"ur die die Anzahl d
 Die Mix of Gaussian $($MOG$)$-Hintergrundsubtraktion ist abh\"angig von einer Kombination von Frames anstelle von nur einem Frame. Bei diesem Verfahren wird f\"ur jedes Hintergrundpixel eine Mischung aus einer Gau{\ss}schen Verteilung k und einem Gewichtungsparameter verwendet, um die Lebensdauer von Pixeln in der Szene zu speichern, wobei k im Bereich von 3 bis 5 variieren kann. Verbleibende Pixel mit einer Zeit gr\"o{\ss}er als a Schwellen in der Szene haben eine h\"ohere Wahrscheinlichkeit, zur Hintergrundszene zu geh\"oren. Wenn das Pixel f\"ur einen bestimmten Zeitraum unver\"andert bleibt, wird es als dominantes Hintergrundpixel betrachtet. Wenn die Differenz von Pixeln in einem Frame gr\"o{\ss}er als ein vordefinierter Schwellenwert ist, werden sie als bewegliche Teile klassifiziert. Diese Methode reagiert sehr empfindlich auf Ver\"anderungen in der Umgebung.
 In unserem Projekt wird MOG2 verwendet. Der Unterschied besteht darin, dass MOG2 die geeignete Anzahl von Gau{\ss}schen Verteilungen f\"ur jedes Pixel ausw\"ahlt, wobei MOG eine K-Gau{\ss}sche Verteilung f\"ur die Modellierung verwendet. Aus diesem Grund bietet MOG2 eine bessere Anpassungsf\"ahigkeit an wechselnde Szenen aufgrund von Beleuchtungs\"anderungen.
 \subsection{Codebeschreibung}
-Der Code der Funktion "get\_foreground\_mask" \"uberpr\"uft das Argument "foregroundMaskOption", um zu bestimmen, ob die Methode "cv.createBackgroundSubtractorMOG2()" oder "cv.createBackgroundSubtractorKNN()" f\"ur die Hintergrundsubtraktion verwendet werden soll. Der n\"achste Schritt besteht darin, eine URL zum Herunterladen des angegebenen Videos mit videoId und cldId als Parameter zu erstellen. Danach l\"adt es das Video mit urllib.request.urlretrieve() von der URL auf einen lokalen Pfad herunter. Dann wird das VideoCapture-Objekt aus dem heruntergeladenen Video erstellt. F\"ur jeden Frame des Videos wird eine Hintergrundsubtraktion angewendet. Die resultierende Vordergrundmaske wird in einer Datei gespeichert.
-Der Code der Funktion "get\_background\_image" ist \"ahnlich geschrieben, speichert aber auch Hintergrundbild.\\
+Der Code der Funktion $\glqq$ get\_foreground\_mask$\grqq$ \"uberpr\"uft das Argument $\glqq$foregroundMaskOption$\grqq$, um zu bestimmen, ob die Methode $\glqq$cv.createBackgroundSubtractorMOG2()$\grqq$ oder $\glqq$cv.createBackgroundSubtractorKNN$()$$\grqq$ f\"ur die Hintergrundsubtraktion verwendet werden soll. Der n\"achste Schritt besteht darin, eine URL zum Herunterladen des angegebenen Videos mit videoId und cldId als Parameter zu erstellen. Danach l\"adt es das Video mit urllib.request.urlretrieve() von der URL auf einen lokalen Pfad herunter. Dann wird das VideoCapture-Objekt aus dem heruntergeladenen Video erstellt. F\"ur jeden Frame des Videos wird eine Hintergrundsubtraktion angewendet. Die resultierende Vordergrundmaske wird in einer Datei gespeichert.
+Der Code der Funktion $\glqq$get\_background\_image$\grqq$ ist \"ahnlich geschrieben, speichert aber auch Hintergrundbild.\\
 \subsection{Ergebnis}
 \begin{figure}
   \includegraphics[width=\linewidth]{knn.png}
@@ -127,7 +127,13 @@ Daher entschied sich die Gruppe f\"ur eine andere Methode f\"ur Hintergrund- und
 
 
 % Frontend: Primer; Paar Buttons eingebaut; Backend mit Funktionen ausgestattet
-
+\section{Probleme}
+\subsection{Coco Dataset}
+Die Gruppe versuchte, den Coco-Datensatz zu verwenden, um Objekte zu identifizieren. Es gab jedoch Probleme bei der Installation der Pakete, daher wurde entschieden, diese Methode zu verwerfen.
+\subsection{Holistically-Nested Edge Detection $($HED$)$}
+Um die Qualit\"at der Kantenerkennung zu verbessern, wurde entschieden, einen Holistically-Nested Edge Detection $($HED$)$ zu verwenden. Das im Youtube Video vorgeschlagene Machine Learning Modell wurde jedoch von seinem Repository entfernt. Daher hat die Methode nicht funktioniert.
+\subsection{Django}
+Vor der Umstellung auf die Applikatiom von Cewe wollte die Gruppe eine eigene Anwendung mit Frontend schreiben.
 % Probleme: Coco Dataset,  HED, Django
 
 % Fazit: Limitierungen
