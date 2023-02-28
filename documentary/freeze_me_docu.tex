@@ -45,9 +45,9 @@ Inhaltswert eines Pixels anhand einer ggf. faktorisierten Durchschnittsberechnun
 \subsection{Motivation}
 Mit der Langzeitbelichtung haben wir einen \"asthetischen Schleiereffekt, der im Video stattfindenden Bewegung, geschaffen. Dieser Schleier muss aber noch in ein Bild eingearbeitet werden, sodass der Effekt entsteht, dass die Bewegungen innerhalb eines Videos in Abh\"angigkeit zu einem Hauptbild, einem Frame des Videos, sind. Um dieses zu bewerkstelligen, muss die Langzeitbelichtung mit seinem Schleiereffekt sich um die bewegende Objekte des gew\"ahlten Frames legen. Die sich bewegenden Objekte trennen wir vom Rest des Bilds durch den Foreground Detection Algorithmus GrabCut und verarbeiten diese rausgeschnittenen Bilder zu einer Maske mittels Thresholding.
 \subsection{Theorie}
-Der GrabCut Algorithmus sch\"atzt innerhalb eines definierten Bereichs die Farbverteilung des Vorder- und Hintergrund mithilfe eines Gau\ss'schen Mischungsmodells. Die daraus resultierenden Pixeletiketten werden zu einem Graphen zusammengesteckt, in Abh\"angigkeit von der Anzahl verbundener Pixelregionen, die das gleiche Pixeletikett besitzen, sodass eine auf Graphenschnitt basierende Optimierung auf diesem Graphen durchf\"uhrt werden kann. Das genannte Verfahren kann mit dem resultierenden Ergebnis wiederholt werden bis zur Konvergenz. % https://en.wikipedia.org/wiki/GrabCut
+Der GrabCut Algorithmus sch\"atzt innerhalb eines definierten Bereichs die Farbverteilung des Vorder- und Hintergrund mithilfe eines Gau{\ss}schen Mischungsmodells. Die daraus resultierenden Pixeletiketten werden zu einem Graphen zusammengesteckt, in Abh\"angigkeit von der Anzahl verbundener Pixelregionen, die das gleiche Pixeletikett besitzen, sodass eine auf Graphenschnitt basierende Optimierung auf diesem Graphen durchf\"uhrt werden kann. Das genannte Verfahren kann mit dem resultierenden Ergebnis wiederholt werden bis zur Konvergenz. % https://en.wikipedia.org/wiki/GrabCut
 \subsection{Codebeschreibung}
-Zu Beginn wird das Video, welches den Schleiereffekt erhalten soll, bis zum Ende gespult, der letzte Frame ausgelesen und als separate JPG-Datei abgespeichert. Danach werden Hilfsvariablen f\"ur das Hintergrundmodel, Vordergrundmodel, Maske und auszuschneidende Rechteck initialisiert. Der GrabCut-Algorithmus, der mit den Hilfsvariablen benutzt wird, ist von OpenCV. Der GrabCut-Algorithmus generiert eine Maske, welche mit dem letzten Frame des Videos verrechnet wird, sodass ein Bild von den sich bewegenden Objekten mit sonst schwarzem Hintergrund generiert wird. Die farbigen sich bewegenden Objekte werden dann noch mittels Thresholding wei\ss eingef\"arbt, sodass die daraus resultierende Maske beim Zusammenf\"uhren des Schleiereffekts und des letzten Frames verwendet werden kann. Nach der Zusammenf\"uhrung bleibt das finale Bild.
+Zu Beginn wird das Video, welches den Schleiereffekt erhalten soll, bis zum Ende gespult, der letzte Frame ausgelesen und als separate JPG-Datei abgespeichert. Danach werden Hilfsvariablen f\"ur das Hintergrundmodel, Vordergrundmodel, Maske und auszuschneidende Rechteck initialisiert. Der GrabCut-Algorithmus, der mit den Hilfsvariablen benutzt wird, ist von OpenCV. Der GrabCut-Algorithmus generiert eine Maske, welche mit dem letzten Frame des Videos verrechnet wird, sodass ein Bild von den sich bewegenden Objekten mit sonst schwarzem Hintergrund generiert wird. Die farbigen sich bewegenden Objekte werden dann noch mittels Thresholding wei{\ss} eingef\"arbt, sodass die daraus resultierende Maske beim Zusammenf\"uhren des Schleiereffekts und des letzten Frames verwendet werden kann. Nach der Zusammenf\"uhrung bleibt das finale Bild.
 \subsection{Resultate}
 Dieser Bildverarbeitungsschritt beschr\"ankt sich derzeit auf das aus unseren Pr\"asentationen bekannte Video vom \textit{contemporary dancer}, da die Hilfsvariable f\"ur das auszuschneidende Rechteck fest im Programmcode hinterlegt ist. Die Maske des sich bewegenden Objekts ist in Abbildung \ref{subfig:mask}, das Bild des letzten Frames in Abbildung \ref{subfig:lastframe}, die Langzeitbelichtung in Abbildung \ref{subfig:longexposure} und das finale Ergebnisse in Abbildung \ref{subfig:grabcutresult} zu sehen. Bei n\"aherer Betrachtung des finalen Ergebnis ist zu erkennen, dass die R\"ander des eingesetzten bewegenden Objekt grafische Artefakte enth\"alt.
 
@@ -75,8 +75,6 @@ Dieser Bildverarbeitungsschritt beschr\"ankt sich derzeit auf das aus unseren Pr
 	\caption{GrabCut Zwischenschritte und Ergebnis}
 	\label{fig:grabcutresultcomplex}
 \end{figure}
-
-% Canny-Edge Detection
 
 \section{Edge Detection}
 \subsection{Motivation}
@@ -125,8 +123,25 @@ Daher entschied sich die Gruppe f\"ur eine andere Methode f\"ur Hintergrund- und
   \label{fig:mog2}
 \end{figure}
 
+\section{Applikation}
 
-% Frontend: Primer; Paar Buttons eingebaut; Backend mit Funktionen ausgestattet
+Zur Entwicklung einer Applikation, welche die in diesem Projekt geforderte Funktionalit\"at umsetzt, wurde von den Veranstaltern dieser Veranstaltung ein Software Primer bereitgestellt. Dieser Software Primer besteht aus einem Backend und einem Frontend. Das Backend ist eine main.py, welche mit der FastAPI Dependency eine einfache Routing Middleware nutzt und  eine Beispiel-Route implementiert. Das Frontend nutzt das VueJS Framework bereit mit einem initialen Grundger\"ust und Featureimplementationen, wie der Login auf den CEWE Server \"uber deren API. Dar\"uber hinaus ist ein Use-Case implementiert, welcher aufzeigt wie der Frontend-Server mit dem Backend-Server kommuniziert. Wie der Frontend und Backend Server zu starten sind, steht in den README-Dateien der jeweiligen Ordner.
+
+Analog zu dem Beispiel Use-Case aus dem Primer haben wir Kn\"opfe implementiert, welche Videos mit ausgew\"ahlten Methoden auf dem Backend Server transformieren und das Resultat an den Frontend Server zur\"ucksendet. Wir haben den Knopf $\glqq$Extract Background$\grqq$ implementiert, welcher anbei eine Auswahl zwischen zwei Verfahren der background subtraction erlaubt: MOG2 und KNN. Dieser Knopf schickt eine Video-ID und eine Verfahrens-ID an die Backend-Route\\
+$\glqq$/get-background-image/\{cldId\}/\{videoId\}/\{backgroundImageOption\}$\grqq$, wo das Verfahren angewandt f\"ur den letzten Videoframe und das Resultat zur\"uck zum Frontend Server gesendet wird, wo das Ergebnis gerendert wird.
+
+Wir haben den Knopf $\glqq$Extract Foreground Mask$\grqq$ implementiert, welcher analog zum Knopf $\glqq$Extract Background$\grqq$ funktioniert, mit dem Unterschied, dass von den vorher gelisteten Verfahren nicht das Hintergrundbild, sondern das Vordergrundbild, zur\"uckgegeben wird. Diese Funktionalit\"at wird bereitgestellt \"uber die Route\\
+$\glqq$/get-foreground-mask/\{cldId\}/\{videoId\}/\{foregroundMaskOption\}$\grqq$.
+
+Wir haben den Knopf $\glqq$Extract Edges$\grqq$ implementiert, welche anlaog zu den vorherigen beiden Kn\"opfen funktioniert. Er ermittelt die Kanten des letzten Frames mittels Canny Edge Detection und wird bereitgestellt \"uber die Route\\
+$\glqq$/get-edge-detection/\{cldId\}/\{videoId\}$\grqq$.
+
+Der Knopf $\glqq$Apply Long Exposure$\grqq$ implementiert ebenfalls analog eine k\"unstliche Langzeitbelichtung und wird bereitgestellt \"uber die Route\\
+$\glqq$/get-long-exposure/\{cldId\}/\{videoId\}$\grqq$.
+
+Zu guter Letzt wird der Knopf $\glqq$Apply Freeze Me$\grqq$ bereitgestellt, welcher die angestrebte Funktionalit\"at des Projekts implementiert. Die Funktionalit\"at wird bereitgestellt \"uber die Route $\glqq$/get-freeze-me/\{cldId\}/\{videoId\}$\grqq$.
+
+% Probleme: Coco Dataset,  HED, Django
 \section{Probleme}
 \subsection{Coco Dataset}
 Die Gruppe versuchte, den Coco-Datensatz zu verwenden, um Objekte zu identifizieren. Es gab jedoch Probleme bei der Installation der Pakete, daher wurde entschieden, diese Methode zu verwerfen.
@@ -134,12 +149,6 @@ Die Gruppe versuchte, den Coco-Datensatz zu verwenden, um Objekte zu identifizie
 Um die Qualit\"at der Kantenerkennung zu verbessern, wurde entschieden, einen Holistically-Nested Edge Detection $($HED$)$ zu verwenden. Das im Youtube Video vorgeschlagene Machine Learning Modell wurde jedoch von seinem Repository entfernt. Daher hat die Methode nicht funktioniert.
 \subsection{Django}
 Vor der Umstellung auf die Applikation von Cewe wollte die Gruppe eine eigene Anwendung mit Frontend schreiben.
-% Probleme: Coco Dataset,  HED, Django
-
-% Fazit: Limitierungen
-% Ausblick: Verbesserungsvorschl\"age
-
-
 
 \section{Fazit}
 \subsection{Limitierungen}
