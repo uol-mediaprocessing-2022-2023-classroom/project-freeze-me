@@ -32,7 +32,18 @@ Eine weitere Inspiration f\"ur unsere Gruppe waren Videos mit viel Dynamik. Spor
 % Grabcut mit Thresholding
 % -> Motivation, Theorie, Codebeschreibung, Resultate
 % Canny-Edge Detection
-% -> Motivation, Theorie, Codebeschreibung, Resultate
+Motivation\\
+Nachdem es der Gruppe gelungen war, Bilder mit einer k\"unstlichen Langzeitblichtung aus dem Video zu erstellen, fiel ein Merkmal auf. Wurde das Video ohne Stativ oder jegliche Art von Unterst\"utzung gedreht, dann führte das leichte Wackeln der Kamera irgendwann dazu, dass sich auch stabile Objekte im Ausgabebild als unscharf herausstellten. Um dieses Merkmal oder Problem zu l\"osen, wurde entschieden, Canny Edge Detection zu verwenden.
+Die Idee, der Algorithmus zu verwenden, wurde experimentell geboren. Wir haben versucht, Canny Edge Detection auf ein bereits bearbeitetes Bild anzuwenden. Die Methode erkannte nur Objekte als Kanten, die auf dem Video stabil waren. Dann entschied die Gruppe, dass es m\"oglich ist, Sch\"arfungsverfahren (z. B. einen Laplace-Filter) auf die Pixelkoordinaten mit stabilen Objekten anzuwenden, die mithilfe des Canny Edge Detection auf dem Ausgabebild erhalten werden.
+Theorie\\
+Der Canny Edge Detection ist ein mehrstufiger Algorithmus zum Erkennen von Kanten in einem Bild. Der Algorithmus besteht aus vier Stufen. In der ersten Stufe ist es notwendig, Rauschen aus dem Originalbild zu entfernen, f\"ur diese Aufgabe wird der Gau{\ss} Filter angewendet. Der zweite Stufe besteht darin, den Gr\"o{\ss}e entlang der x- und y-Dimension zu erhalten. Dazu wird die Ableitung des Gau{\ss}-Filters berechnet, um dann das Gradient der Bildpixel zu berechnen.
+Der Algorithmus geht alle Punkte der Gradientenintensit\"atsmatrix durch und findet die Pixel mit dem maximalen Wert in den Kantenrichtungen.
+Das Betrachten der Gruppe von Nachbarn f\"ur jede Kurve in einer Richtung senkrecht zu der gegebenen Kante unterdr\"uckt nicht maximalen Kantenbeitragspixelpunkte. Schlie{\ss}lich wird das Hysterese-Schwellenwertverfahren verwendet, um die Pixel zu bewahren, die h\"oher als die Gradientengr\"o{\ss}e sind, und diejenigen zu vernachl\"assigen, die niedriger als der niedrige Schwellenwert sind.\\
+Codebeschreibung.
+Zur Optimierung der Ergebnisse wird ein Verfahren zur Bestimmung der Schwellwerte (minVal und maxVal) eingesetzt. Die Schwellwerte werden dann in der OpenCV Methode cv.Canny \"ubergegeben.\\
+Ergebnis\\
+Nach dem Ausf\"uhren des Codes ist das erwartete Ergebnis ein Bild mit identifizierten Kanten. Nach Auswertung der Ergebnisse entschied die Gruppe, dass der resultierende Bildsch\"arfungseffekt nicht effektiv genug war, und entschied sich daher, Canny Edge Detection aufzugeben.\\
+
 % MOG2 und KNN
 % -> Motivation, Theorie, Codebeschreibung, Resultate
 
