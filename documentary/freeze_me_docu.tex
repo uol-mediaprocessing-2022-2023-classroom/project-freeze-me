@@ -81,33 +81,50 @@ Dieser Bildverarbeitungsschritt beschr\"ankt sich derzeit auf das aus unseren Pr
 \section{Edge Detection}
 \subsection{Motivation}
 Nachdem es der Gruppe gelungen war, Bilder mit einer k\"unstlichen Langzeitblichtung aus dem Video zu erstellen, fiel ein Merkmal auf. Wurde das Video ohne Stativ oder jegliche Art von Unterst\"utzung gedreht, dann f\"uhrte das leichte Wackeln der Kamera irgendwann dazu, dass sich auch stabile Objekte im Ausgabebild als unscharf herausstellten. Um dieses Merkmal oder Problem zu l\"osen, wurde entschieden, Canny Edge Detection zu verwenden.
-Die Idee, der Algorithmus zu verwenden, wurde experimentell geboren. Wir haben versucht, Canny Edge Detection auf ein bereits bearbeitetes Bild anzuwenden. Die Methode erkannte nur Objekte als Kanten, die auf dem Video stabil waren. Dann entschied die Gruppe, dass es m\"oglich ist, Sch\"arfungsverfahren (z. B. einen Laplace-Filter) auf die Pixelkoordinaten mit stabilen Objekten anzuwenden, die mithilfe des Canny Edge Detection auf dem Ausgabebild erhalten werden.
+Die Idee, der Algorithmus zu verwenden, wurde experimentell geboren. Wir haben versucht, Canny Edge Detection auf ein bereits bearbeitetes Bild anzuwenden. Die Methode erkannte nur Objekte als Kanten, die auf dem Video stabil waren. Dann entschied die Gruppe, dass es m\"oglich ist, Sch\"arfungsverfahren $($z. B. einen Laplace-Filter$)$ auf die Pixelkoordinaten mit stabilen Objekten anzuwenden, die mithilfe des Canny Edge Detection auf dem Ausgabebild erhalten werden.
 \subsection{Theorie}
+%TODOQuelle: https://towardsai.net/p/computer-vision/what-is-a-canny-edge-detection-algorithm
 Der Canny Edge Detection ist ein mehrstufiger Algorithmus zum Erkennen von Kanten in einem Bild. Der Algorithmus besteht aus vier Stufen. In der ersten Stufe ist es notwendig, Rauschen aus dem Originalbild zu entfernen, f\"ur diese Aufgabe wird der Gau{\ss} Filter angewendet. Der zweite Stufe besteht darin, den Gr\"o{\ss}e entlang der x- und y-Dimension zu erhalten. Dazu wird die Ableitung des Gau{\ss}-Filters berechnet, um dann das Gradient der Bildpixel zu berechnen.
 Der Algorithmus geht alle Punkte der Gradientenintensit\"atsmatrix durch und findet die Pixel mit dem maximalen Wert in den Kantenrichtungen.
 Das Betrachten der Gruppe von Nachbarn f\"ur jede Kurve in einer Richtung senkrecht zu der gegebenen Kante unterdr\"uckt nicht maximalen Kantenbeitragspixelpunkte. Schlie{\ss}lich wird das Hysterese-Schwellenwertverfahren verwendet, um die Pixel zu bewahren, die h\"oher als die Gradientengr\"o{\ss}e sind, und diejenigen zu vernachl\"assigen, die niedriger als der niedrige Schwellenwert sind.
 \subsection{Codebeschreibung}
-Zur Optimierung der Ergebnisse wird ein Verfahren zur Bestimmung der Schwellwerte (minVal und maxVal) eingesetzt. Die Schwellwerte werden dann in der OpenCV Methode cv.Canny \"ubergegeben.\\
+Zur Optimierung der Ergebnisse \ref{fig:CED} wird ein Verfahren zur Bestimmung der Schwellwerte $($minVal und maxVal$)$ eingesetzt. Die Schwellwerte werden dann in der OpenCV Methode cv.Canny \"ubergegeben.\\
 \subsection{Ergebnis}
+\begin{figure}
+  \includegraphics[width=\linewidth]{CED.png}
+  \caption{Canny Edge Detection.}
+  \label{fig:CED}
+\end{figure}
 Nach dem Ausf\"uhren des Codes ist das erwartete Ergebnis ein Bild mit identifizierten Kanten. Nach Auswertung der Ergebnisse entschied die Gruppe, dass der resultierende Bildsch\"arfungseffekt nicht effektiv genug war, und entschied sich daher, Canny Edge Detection aufzugeben.\\
 \section{Background Subtraction}
 \subsection{Motivation}
 Die Gruppe stand vor dem Problem, dass manchmal ein sich bewegendes Objekt im Video nach Anwendung der k\"unstlichen Langzeitblichtung weniger unterscheidbar wurde. Um Kontrast und Transparenz hinzuzuf\"ugen, wurde entschieden, dem endg\"ultigen Bild ein sich bewegende Objekt hinzuzuf\"ugen, das aus einem der Videoframes geschnitten wurde.
-Zu diesem Zweck entschied sich die Gruppe, zwei Background- und Foregroundsubtraction Methoden von OpenCV anzuwenden:K-Nearest Neighbors (KNN) und Gaussian Mixture-based (MOG2).\\
+Zu diesem Zweck entschied sich die Gruppe, zwei Vorder- und Hintergrundsubtraction Methoden von OpenCV anzuwenden:K-Nearest Neighbors $($KNN$)$ und Gaussian Mixture-based $($MOG2$)$.\\
 \subsection{Theorie KNN}
+%TODOQuelle: https://www.javatpoint.com/k-nearest-neighbor-algorithm-for-machine-learning
 Der erste Schritt besteht darin, die Anzahl K der Nachbarn zu w\"ahlen. Dann ist es notwendig, den euklidischen Abstand der Anzahl von K Nachbarn zu berechnen. Basierend auf der berechneten euklidischen euklidischen Distanz werden K n\"achste Nachbarn ausgew\"ahlt. Unter diesen k Nachbarn wird die Anzahl der Datenpunkte in jeder Kategorie gez\"ahlt.
 Am Ende werden neue Datenpunkte der Kategorie zugeordnet, f\"ur die die Anzahl der Nachbarn maximal ist.
 \subsection{Theorie MOG2}
-Die Mix of Gaussian (MOG)-Hintergrundsubtraktion ist abh\"angig von einer Kombination von Frames anstelle von nur einem Frame. Bei diesem Verfahren wird f\"ur jedes Hintergrundpixel eine Mischung aus einer Gau{\ss}schen Verteilung k und einem Gewichtungsparameter verwendet, um die Lebensdauer von Pixeln in der Szene zu speichern, wobei k im Bereich von 3 bis 5 variieren kann. Verbleibende Pixel mit einer Zeit gr\"o{\ss}er als a Schwellen in der Szene haben eine h\"ohere Wahrscheinlichkeit, zur Hintergrundszene zu geh\"oren. Wenn das Pixel f\"ur einen bestimmten Zeitraum unver\"andert bleibt, wird es als dominantes Hintergrundpixel betrachtet. Wenn die Differenz von Pixeln in einem Frame gr\"o{\ss}er als ein vordefinierter Schwellenwert ist, werden sie als bewegliche Teile klassifiziert. Diese Methode reagiert sehr empfindlich auf Ver\"anderungen in der Umgebung.
+%TODOQuelle: https://github.com/GuilanITS/mog-motion-detection
+Die Mix of Gaussian $($MOG$)$-Hintergrundsubtraktion ist abh\"angig von einer Kombination von Frames anstelle von nur einem Frame. Bei diesem Verfahren wird f\"ur jedes Hintergrundpixel eine Mischung aus einer Gau{\ss}schen Verteilung k und einem Gewichtungsparameter verwendet, um die Lebensdauer von Pixeln in der Szene zu speichern, wobei k im Bereich von 3 bis 5 variieren kann. Verbleibende Pixel mit einer Zeit gr\"o{\ss}er als a Schwellen in der Szene haben eine h\"ohere Wahrscheinlichkeit, zur Hintergrundszene zu geh\"oren. Wenn das Pixel f\"ur einen bestimmten Zeitraum unver\"andert bleibt, wird es als dominantes Hintergrundpixel betrachtet. Wenn die Differenz von Pixeln in einem Frame gr\"o{\ss}er als ein vordefinierter Schwellenwert ist, werden sie als bewegliche Teile klassifiziert. Diese Methode reagiert sehr empfindlich auf Ver\"anderungen in der Umgebung.
 In unserem Projekt wird MOG2 verwendet. Der Unterschied besteht darin, dass MOG2 die geeignete Anzahl von Gau{\ss}schen Verteilungen f\"ur jedes Pixel ausw\"ahlt, wobei MOG eine K-Gau{\ss}sche Verteilung f\"ur die Modellierung verwendet. Aus diesem Grund bietet MOG2 eine bessere Anpassungsf\"ahigkeit an wechselnde Szenen aufgrund von Beleuchtungs\"anderungen.
 \subsection{Codebeschreibung}
 Der Code der Funktion "get\_foreground\_mask" \"uberpr\"uft das Argument "foregroundMaskOption", um zu bestimmen, ob die Methode "cv.createBackgroundSubtractorMOG2()" oder "cv.createBackgroundSubtractorKNN()" f\"ur die Hintergrundsubtraktion verwendet werden soll. Der n\"achste Schritt besteht darin, eine URL zum Herunterladen des angegebenen Videos mit videoId und cldId als Parameter zu erstellen. Danach l\"adt es das Video mit urllib.request.urlretrieve() von der URL auf einen lokalen Pfad herunter. Dann wird das VideoCapture-Objekt aus dem heruntergeladenen Video erstellt. F\"ur jeden Frame des Videos wird eine Hintergrundsubtraktion angewendet. Die resultierende Vordergrundmaske wird in einer Datei gespeichert.
 Der Code der Funktion "get\_background\_image" ist \"ahnlich geschrieben, speichert aber auch Hintergrundbild.\\
 \subsection{Ergebnis}
+\begin{figure}
+  \includegraphics[width=\linewidth]{knn.png}
+  \caption{K-Nearest Neighbors.}
+  \label{fig:knn}
+\end{figure}
 Das Ergebnis beider Methoden war f\"ur die Aufgabenstellung nicht geeignet. Die unter Verwendung dieser beiden Algorithmen erhaltenen Masken waren nicht monolithisch, sondern hatten L\"ucken darin. Eine Maske mit L\"ucken war nicht tauglich.
 Daher entschied sich die Gruppe f\"ur eine andere Methode f\"ur Hintergrund- und Vordergrundsubtraktion.\\
-% MOG2 und KNN
-% -> Motivation, Theorie, Codebeschreibung, Resultate
+\begin{figure}
+  \includegraphics[width=\linewidth]{mog2.png}
+  \caption{MOG2}
+  \label{fig:mog2}
+\end{figure}
+
 
 % Frontend: Primer; Paar Buttons eingebaut; Backend mit Funktionen ausgestattet
 
