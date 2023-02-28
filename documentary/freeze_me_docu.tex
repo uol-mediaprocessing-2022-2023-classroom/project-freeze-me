@@ -1,6 +1,7 @@
 \documentclass[12pt]{scrartcl}
 \usepackage[german]{babel}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
 
@@ -39,8 +40,42 @@ Inhaltswert eines Pixels anhand einer ggf. faktorisierten Durchschnittsberechnun
 
 % Langzeitbelichtung
 % -> Motivation, Theorie, Codebeschreibung, Resultate
-% Grabcut mit Thresholding
-% -> Motivation, Theorie, Codebeschreibung, Resultate
+
+\section{Grabcut mit Thresholding}
+\subsection{Motivation}
+Mit der Langzeitbelichtung haben wir einen \"asthetischen Schleiereffekt, der im Video stattfindenden Bewegung, geschaffen. Dieser Schleier muss aber noch in ein Bild eingearbeitet werden, sodass der Effekt entsteht, dass die Bewegungen innerhalb eines Videos in Abh\"angigkeit zu einem Hauptbild, einem Frame des Videos, sind. Um dieses zu bewerkstelligen, muss die Langzeitbelichtung mit seinem Schleiereffekt sich um die bewegende Objekte des gew\"ahlten Frames legen. Die sich bewegenden Objekte trennen wir vom Rest des Bilds durch den Foreground Detection Algorithmus GrabCut und verarbeiten diese rausgeschnittenen Bilder zu einer Maske mittels Thresholding.
+\subsection{Theorie}
+Der GrabCut Algorithmus sch\"atzt innerhalb eines definierten Bereichs die Farbverteilung des Vorder- und Hintergrund mithilfe eines Gau\ss'schen Mischungsmodells. Die daraus resultierenden Pixeletiketten werden zu einem Graphen zusammengesteckt, in Abh\"angigkeit von der Anzahl verbundener Pixelregionen, die das gleiche Pixeletikett besitzen, sodass eine auf Graphenschnitt basierende Optimierung auf diesem Graphen durchf\"uhrt werden kann. Das genannte Verfahren kann mit dem resultierenden Ergebnis wiederholt werden bis zur Konvergenz. % https://en.wikipedia.org/wiki/GrabCut
+\subsection{Codebeschreibung}
+Zu Beginn wird das Video, welches den Schleiereffekt erhalten soll, bis zum Ende gespult, der letzte Frame ausgelesen und als separate JPG-Datei abgespeichert. Danach werden Hilfsvariablen f\"ur das Hintergrundmodel, Vordergrundmodel, Maske und auszuschneidende Rechteck initialisiert. Der GrabCut-Algorithmus, der mit den Hilfsvariablen benutzt wird, ist von OpenCV. Der GrabCut-Algorithmus generiert eine Maske, welche mit dem letzten Frame des Videos verrechnet wird, sodass ein Bild von den sich bewegenden Objekten mit sonst schwarzem Hintergrund generiert wird. Die farbigen sich bewegenden Objekte werden dann noch mittels Thresholding wei\ss eingef\"arbt, sodass die daraus resultierende Maske beim Zusammenf\"uhren des Schleiereffekts und des letzten Frames verwendet werden kann. Nach der Zusammenf\"uhrung bleibt das finale Bild.
+\subsection{Resultate}
+Dieser Bildverarbeitungsschritt beschr\"ankt sich derzeit auf das aus unseren Pr\"asentationen bekannte Video vom \textit{contemporary dancer}, da die Hilfsvariable f\"ur das auszuschneidende Rechteck fest im Programmcode hinterlegt ist. Die Maske des sich bewegenden Objekts ist in Abbildung \ref{subfig:mask}, das Bild des letzten Frames in Abbildung \ref{subfig:lastframe}, die Langzeitbelichtung in Abbildung \ref{subfig:longexposure} und das finale Ergebnisse in Abbildung \ref{subfig:grabcutresult} zu sehen. Bei n\"aherer Betrachtung des finalen Ergebnis ist zu erkennen, dass die R\"ander des eingesetzten bewegenden Objekt grafische Artefakte enth\"alt.
+
+\begin{figure}[b]
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=\textwidth]{grab_cut_mask_path.jpg}
+		\caption{Maske}
+		\label{subfig:mask}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=\textwidth]{last_frame_path.jpg}
+		\caption{Letzer Frame}
+		\label{subfig:lastframe}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=\textwidth]{long_exposure_path.jpg}
+		\caption{Langzeitbelichtung}
+		\label{subfig:longexposure}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=\textwidth]{freeze_me_path.jpg}
+		\caption{Langzeitbelichtung + Letzter Frame}
+		\label{subfig:grabcutresult}
+	\end{subfigure}
+	\caption{GrabCut Zwischenschritte und Ergebnis}
+	\label{fig:grabcutresultcomplex}
+\end{figure}
+
 % Canny-Edge Detection
 
 \section{Edge Detection}
@@ -66,8 +101,8 @@ Am Ende werden neue Datenpunkte der Kategorie zugeordnet, f\"ur die die Anzahl d
 Die Mix of Gaussian (MOG)-Hintergrundsubtraktion ist abh\"angig von einer Kombination von Frames anstelle von nur einem Frame. Bei diesem Verfahren wird f\"ur jedes Hintergrundpixel eine Mischung aus einer Gau{\ss}schen Verteilung k und einem Gewichtungsparameter verwendet, um die Lebensdauer von Pixeln in der Szene zu speichern, wobei k im Bereich von 3 bis 5 variieren kann. Verbleibende Pixel mit einer Zeit gr\"o{\ss}er als a Schwellen in der Szene haben eine h\"ohere Wahrscheinlichkeit, zur Hintergrundszene zu geh\"oren. Wenn das Pixel f\"ur einen bestimmten Zeitraum unver\"andert bleibt, wird es als dominantes Hintergrundpixel betrachtet. Wenn die Differenz von Pixeln in einem Frame gr\"o{\ss}er als ein vordefinierter Schwellenwert ist, werden sie als bewegliche Teile klassifiziert. Diese Methode reagiert sehr empfindlich auf Ver\"anderungen in der Umgebung.
 In unserem Projekt wird MOG2 verwendet. Der Unterschied besteht darin, dass MOG2 die geeignete Anzahl von Gau{\ss}schen Verteilungen f\"ur jedes Pixel ausw\"ahlt, wobei MOG eine K-Gau{\ss}sche Verteilung f\"ur die Modellierung verwendet. Aus diesem Grund bietet MOG2 eine bessere Anpassungsf\"ahigkeit an wechselnde Szenen aufgrund von Beleuchtungs\"anderungen.
 \subsection{Codebeschreibung}
-Der Code der Funktion “get_foreground_mask” \"uberpr\"uft das Argument "foregroundMaskOption", um zu bestimmen, ob die Methode "cv.createBackgroundSubtractorMOG2()" oder "cv.createBackgroundSubtractorKNN()" f\"ur die Hintergrundsubtraktion verwendet werden soll. Der n\"achste Schritt besteht darin, eine URL zum Herunterladen des angegebenen Videos mit videoId und cldId als Parameter zu erstellen. Danach l\"adt es das Video mit urllib.request.urlretrieve() von der URL auf einen lokalen Pfad herunter. Dann wird das VideoCapture-Objekt aus dem heruntergeladenen Video erstellt. F\"ur jeden Frame des Videos wird eine Hintergrundsubtraktion angewendet. Die resultierende Vordergrundmaske wird in einer Datei gespeichert.
-Der Code der Funktion “get_background_image” ist \"ahnlich geschrieben, speichert aber auch Hintergrundbild.\\
+Der Code der Funktion "get\_foreground\_mask" \"uberpr\"uft das Argument "foregroundMaskOption", um zu bestimmen, ob die Methode "cv.createBackgroundSubtractorMOG2()" oder "cv.createBackgroundSubtractorKNN()" f\"ur die Hintergrundsubtraktion verwendet werden soll. Der n\"achste Schritt besteht darin, eine URL zum Herunterladen des angegebenen Videos mit videoId und cldId als Parameter zu erstellen. Danach l\"adt es das Video mit urllib.request.urlretrieve() von der URL auf einen lokalen Pfad herunter. Dann wird das VideoCapture-Objekt aus dem heruntergeladenen Video erstellt. F\"ur jeden Frame des Videos wird eine Hintergrundsubtraktion angewendet. Die resultierende Vordergrundmaske wird in einer Datei gespeichert.
+Der Code der Funktion "get\_background\_image" ist \"ahnlich geschrieben, speichert aber auch Hintergrundbild.\\
 \subsection{Ergebnis}
 Das Ergebnis beider Methoden war f\"ur die Aufgabenstellung nicht geeignet. Die unter Verwendung dieser beiden Algorithmen erhaltenen Masken waren nicht monolithisch, sondern hatten L\"ucken darin. Eine Maske mit L\"ucken war nicht tauglich.
 Daher entschied sich die Gruppe f\"ur eine andere Methode f\"ur Hintergrund- und Vordergrundsubtraktion.\\
