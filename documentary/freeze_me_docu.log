@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.25)  28 FEB 2023 17:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.25)  28 FEB 2023 18:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -418,45 +418,62 @@ LaTeX Font Info:    Trying to load font information for T1+cmss on input line 2
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-Underfull \hbox (badness 10000) in paragraph at lines 29--32
+<media/lzb.jpg, id=4, 2819.53375pt x 1881.0275pt>
+File: media/lzb.jpg Graphic file (type jpg)
+<use media/lzb.jpg>
+Package pdftex.def Info: media/lzb.jpg  used on input line 32.
+(pdftex.def)             Requested size: 448.13095pt x 298.9614pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--33
 
  []
 
 [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2]
-Underfull \hbox (badness 10000) in paragraph at lines 53--54
+<media/funclzb.jpg, id=22, 1007.765pt x 574.145pt>
+File: media/funclzb.jpg Graphic file (type jpg)
+<use media/funclzb.jpg>
+Package pdftex.def Info: media/funclzb.jpg  used on input line 35.
+(pdftex.def)             Requested size: 268.8813pt x 153.18146pt.
+<media/artlzb.jpg, id=23, 1393.205pt x 784.9325pt>
+File: media/artlzb.jpg Graphic file (type jpg)
+<use media/artlzb.jpg>
+Package pdftex.def Info: media/artlzb.jpg  used on input line 37.
+(pdftex.def)             Requested size: 448.13095pt x 252.47705pt.
 
- []
-
-
+[2 <./media/lzb.jpg> <./media/funclzb.jpg>] [3 <./media/artlzb.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 55--56
 
  []
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 75.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 75.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 75.
 
-Overfull \hbox (6.86842pt too wide) in paragraph at lines 74--77
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
+
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 74.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 74.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 74.
+
+Overfull \hbox (6.86842pt too wide) in paragraph at lines 73--76
 \T1/cmr/m/n/12 Von den an-fäng-lich 3 an-ge-nom-me-nen Test-vi-deos $\OT1/cmr/m
 /n/12 ($\T1/cmr/m/n/12 Tänzer, Kreu-zung, Tik-Tok Sprungvideo$\OT1/cmr/m/n/12 )
 $
  []
 
-[3] [4] (./freeze_me_docu.aux)
+[4] [5] (./freeze_me_docu.aux)
 Package rerunfilecheck Info: File `freeze_me_docu.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 12525 strings out of 478268
- 224485 string characters out of 5846347
- 657969 words of memory out of 5000000
- 30575 multiletter control sequences out of 15000+600000
+ 12571 strings out of 478268
+ 225297 string characters out of 5846347
+ 656969 words of memory out of 5000000
+ 30613 multiletter control sequences out of 15000+600000
  480713 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,7n,106p,10635b,336s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -471,10 +488,10 @@ al/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local
 exlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/tex
 live/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texli
 ve/2022/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on freeze_me_docu.pdf (4 pages, 161733 bytes).
+Output written on freeze_me_docu.pdf (5 pages, 1733263 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
- 20 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 152 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
+ 22 named destinations out of 1000 (max. 500000)
+ 144 words of extra memory for PDF output out of 10000 (max. 10000000)
 

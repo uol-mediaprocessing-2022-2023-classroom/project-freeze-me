@@ -28,11 +28,13 @@ Eine weitere Inspiration f\"ur unsere Gruppe waren Videos mit viel Dynamik. Spor
 \section{Langzeitbelichtung - Inspirationsquelle} %Erstmal Hendriks Sektion
 \subsection{Motivation}Das in den Er\"offnungsfolien gezeigte Bildmaterial erinnerte uns in Teilen doch recht stark an eine klassische
 Langzeitbelichtung, wie
-man sie aus der Analogfotografie oder der Fotographie mit DSLRs oder DSLMs kennt. Daher stellten wir uns die Frage, wie man dieses Konzept digital nachtr\"aglich unter Zuhilfenahme eines Videos anstelle eines Fotos reproduzieren kann. \\
+man sie aus der Analogfotografie oder der Fotographie mit DSLRs oder DSLMs kennt. Daher stellten wir uns die Frage, wie man dieses Konzept digital nachtr\"aglich unter Zuhilfenahme eines Videos anstelle eines Fotos reproduzieren kann.\\
+ \includegraphics[width=\textwidth]{media/lzb}\\
 \subsection{Funktionsweise}Der Ansatz, den wir hierbei Verfolgt haben ist relativ trivial. \"Ahnlich wie klassiche Filter den
-Inhaltswert eines Pixels anhand einer ggf. faktorisierten Durchschnittsberechnung mit den umliegenden Pixeln berechnet tun wir ebendieses - jedoch mit den Pixeln gleicher Koordinaten auf anderen Videoframes. Zu diesem Zwecke werden Videos Frame f\"ur Frame betrachtet und dann Pixel f\"ur Pixel in ihre jeweiligen 3 Farbkomponenten zerlegt. Im folgenden wird der Durchschnittswert der Farbwerte errechnet und somit eine Art Langzeitpixel erzeugt, deren Summe das k\"unstlich Langzeitbelichtete Bild ergibt.
- \subsection{Resultate}Die Resultate waren abh\"angig vom eingegebenen Video durchaus vielversprechend. Ein von uns anf\"anglich eigens erstelltes Video von der Kreuzung der Ammerl\"ander Heerstra{\ss}e mit dem Uhlhornsweg resultierte in einem mehr oder minder matschigen Bild. Das Ergebnis des Contemporary Dancers hingegen war schon erstaunlich dicht an den Hintergrunderscheinungen der Fotos in den Veranstaltungsfolien. Auch das TikTok Video mit dem Sprung resultierte in einem relativ ansehnlichen Ergebnis. Da dieser Ansatz somit der erste nennenswerte Schritt in die Richtung des Gesamtzieles war wurde er beibehalten und die Langzeitbelichtung
-wurde somit Grundkomponente unseres Projektes.
+Inhaltswert eines Pixels anhand einer ggf. faktorisierten Durchschnittsberechnung mit den umliegenden Pixeln berechnet tun wir ebendieses - jedoch mit den Pixeln gleicher Koordinaten auf anderen Videoframes. Zu diesem Zwecke werden Videos Frame f\"ur Frame betrachtet und dann Pixel f\"ur Pixel in ihre jeweiligen 3 Farbkomponenten zerlegt. Im folgenden wird der Durchschnittswert der Farbwerte errechnet und somit eine Art Langzeitpixel erzeugt, deren Summe das k\"unstlich Langzeitbelichtete Bild ergibt.\\
+\includegraphics[width=0.6\textwidth]{media/funclzb}
+ \subsection{Resultate}Die Resultate waren abh\"angig vom eingegebenen Video durchaus vielversprechend. Ein von uns anf\"anglich eigens erstelltes Video von der Kreuzung der Ammerl\"ander Heerstra{\ss}e mit dem Uhlhornsweg resultierte in einem mehr oder minder matschigen Bild. Das Ergebnis des Contemporary Dancers hingegen war schon erstaunlich dicht an den Hintergrunderscheinungen der Fotos in den Veranstaltungsfolien. Auch das TikTok Video mit dem Sprung resultierte in einem relativ ansehnlichen Ergebnis. Da dieser Ansatz somit der erste nennenswerte Schritt in die Richtung des Gesamtzieles war wurde er beibehalten und die Langzeitbelichtung wurde somit Grundkomponente unseres Projektes.\\
+ \includegraphics[width=\textwidth]{media/artlzb}
 % Anforderungsanalyse
 
 % Langzeitbelichtung
@@ -67,14 +69,15 @@ Nach dem Ausf\"uhren des Codes ist das erwartete Ergebnis ein Bild mit identifiz
 \section{Edge Detection und Background Subtraction}
 
 \section{Fazit}
-Das letztendliche Ergebnis unserer Arbeit entspricht unser Meinung nach dem urspr\"unglichen Ziel - aufgrund der Subjektivit\"at der
-\"Asthetik aber l\"asst sich dieses Urteil wohl kaum objektiv f\"allen. Mit der Anwendung der Langzeitbelichtung fand sich f\"ur uns relativ
-fr\"uh eine M\"oglichkeit, einen Hintergrund mit den verwaschenen bzw. verschwommenen Hintergrundartefakten zu erzeugen.
 \subsection{Limitierungen}
 Die Erkennung des Vordergrundes beschr\"ankt die Funktionsweise der Software in Teilen. Von den anf\"anglich 3 angenommenen Testvideos
 $ ( $T\"anzer, Kreuzung, TikTok Sprungvideo$ ) $ funktioniert lediglich der T\"anzer wirklich gut. Das Ergebnis des TikTok Sprungvideos ist
 ebenfalls durchaus annehmbar, wobei hier das Hinzuf\"ugen eines maskierten Standbildes weitestgehend wertlos ist. Zu diesem Zwecke m\"usste ein Framepicker in der Software implementiert werden. Gleicherma{\ss}en ist der Kontrast der Hintergrundeffekte relativ stark beschr\"ankt, was ein Betrachten der Resultate in schlechten Lichtverh\"altnissen oder gar auf Beamern stark einschr\"ankt. Um diesen Effekt zu verst\"arken h\"atte eine helligkeitsbedingte Faktorisierung genutzt werden k\"onnen, die wir anf\"anglich mal betrachtet haben, deren Notwendigkeit uns im Laufe des Projektes nicht mehr sinnvoll erschien. Retrospektiv w\"are diese Funktion ein sinniges Opt-In gewesen.
 \subsection{Ausbaum\"oglichkeiten}
-F\"ur eine k\"unftige Ausgestaltung bieten sich die im letzten Block genannten Optionen an: Eine Optimierung des Interfaces um ein Frame zu selektieren, die Option im entsprechenden Frame ein Rechteck zu w\"ahlen, das dann an GrabCut \"ubergeben wird um den Vordergrund zu bestimmen. Dazu w\"are es eine sicherlich gute Option gewesen die Lichtst\"arke in die Langzeitbelichtung einflie{\ss}en zu lassen, um den Kontrast der Schlieren im Hintergrund zu steigern.
+F\"ur eine k\"unftige Ausgestaltung bieten sich die im letzten Block genannten Optionen an: Eine Optimierung des Interfaces um ein Frame zu selektieren, die Option im entsprechenden Frame ein Rechteck zu w\"ahlen, das dann an GrabCut \"ubergeben wird um den Vordergrund zu bestimmen. Dazu w\"are es eine sicherlich gute Option gewesen die Lichtst\"arke in die Langzeitbelichtung einflie{\ss}en zu lassen, um den Kontrast der Schlieren im Hintergrund zu steigern. Darüber hinaus blieben sicherlich noch Optimierungen an der GUI und der Effizienz und damit der Performanz des Systems.
+\subsection{Resumee}
+Das letztendliche Ergebnis unserer Arbeit entspricht unser Meinung nach dem urspr\"unglichen Ziel - aufgrund der Subjektivit\"at der
+\"Asthetik aber l\"asst sich dieses Urteil wohl kaum objektiv f\"allen. Mit der Anwendung der Langzeitbelichtung fand sich f\"ur uns relativ
+fr\"uh eine M\"oglichkeit, einen Hintergrund mit den verwaschenen bzw. verschwommenen Hintergrundartefakten zu erzeugen, durch das Erg\"anzen um ein einzelnes, maskiertes Videoframe ist dabei auch die Charakteristik eines Fotos gewährt.
 
 \end{document}
