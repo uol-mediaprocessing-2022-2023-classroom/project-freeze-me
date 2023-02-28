@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.25)  28 FEB 2023 17:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.25)  28 FEB 2023 17:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -425,45 +425,56 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--32
 [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 45.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 45.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 45.
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
-Overfull \hbox (6.86842pt too wide) in paragraph at lines 44--47
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--56
+
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 75.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 75.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 75.
+
+Overfull \hbox (6.86842pt too wide) in paragraph at lines 74--77
 \T1/cmr/m/n/12 Von den an-fäng-lich 3 an-ge-nom-me-nen Test-vi-deos $\OT1/cmr/m
 /n/12 ($\T1/cmr/m/n/12 Tänzer, Kreu-zung, Tik-Tok Sprungvideo$\OT1/cmr/m/n/12 )
 $
  []
 
-[2] [3] (./freeze_me_docu.aux)
+[3] [4] (./freeze_me_docu.aux)
 Package rerunfilecheck Info: File `freeze_me_docu.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 12513 strings out of 478268
- 224370 string characters out of 5846347
+ 12525 strings out of 478268
+ 224485 string characters out of 5846347
  657969 words of memory out of 5000000
- 30569 multiletter control sequences out of 15000+600000
- 480376 words of font info for 48 fonts, out of 8000000 for 9000
+ 30575 multiletter control sequences out of 15000+600000
+ 480713 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,7n,106p,10635b,336s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></us
-r/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/
-local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/lo
-cal/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/loca
-l/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/
-texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/te
-xlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texl
-ive/2022/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on freeze_me_docu.pdf (3 pages, 155308 bytes).
+{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<
+/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
+sr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/l
+ocal/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/loc
+al/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local
+/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/t
+exlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/tex
+live/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texli
+ve/2022/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on freeze_me_docu.pdf (4 pages, 161733 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
- 89 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 141 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
+ 20 named destinations out of 1000 (max. 500000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 
